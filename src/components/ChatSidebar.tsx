@@ -63,11 +63,11 @@ export default function ChatSidebar({
   };
 
   return (
-    <div className="w-full h-full flex flex-col bg-[#1C1F21]">
+    <div className="w-full h-full flex flex-col bg-white dark:bg-[#1C1F21]">
       {/* Sidebar Header */}
-      <div className="p-3 md:p-4 border-b border-gray-700">
+      <div className="p-3 md:p-4 border-b border-gray-300 dark:border-gray-700">
         <button 
-          className="w-full py-2 px-3 md:px-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg flex items-center justify-center gap-2 text-sm md:text-base"
+          className="w-full py-2 px-3 md:px-4 bg-blue-500 dark:bg-gray-700 hover:bg-blue-600 dark:hover:bg-gray-600 text-white rounded-lg flex items-center justify-center gap-2 text-sm md:text-base"
           onClick={startNewChat}
         >
           <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -87,8 +87,8 @@ export default function ChatSidebar({
           chatHistory.map((chat) => (
             <button
               key={chat.id}
-              className={`w-full p-3 md:p-4 text-left hover:bg-gray-700 text-gray-300 flex flex-col gap-1 relative group ${
-                currentChatId === chat.id ? 'bg-gray-700' : ''
+              className={`w-full p-3 md:p-4 text-left hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 flex flex-col gap-1 relative group ${
+                currentChatId === chat.id ? 'bg-gray-200 dark:bg-gray-700' : ''
               }`}
               onClick={() => selectChat(chat.id)}
             >
@@ -97,7 +97,7 @@ export default function ChatSidebar({
               
               {/* Кнопка удаления (появляется при наведении) */}
               <button
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 p-1"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-500 p-1"
                 onClick={(e) => handleDeleteChat(chat.id, e)}
                 aria-label="Удалить чат"
               >
@@ -111,15 +111,15 @@ export default function ChatSidebar({
       </div>
 
       {/* User Info and Logout */}
-      <div className="p-3 md:p-4 border-t border-gray-700 mt-auto">
+      <div className="p-3 md:p-4 border-t border-gray-300 dark:border-gray-700 mt-auto">
         <div className="flex items-center justify-between mb-2">
-          <div className="text-xs md:text-sm text-gray-400 truncate">
+          <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400 truncate">
             {userEmail}
           </div>
         </div>
         <button 
           onClick={signOut}
-          className="w-full py-2 px-3 md:px-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg flex items-center justify-center gap-2 text-sm md:text-base"
+          className="w-full py-2 px-3 md:px-4 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-white rounded-lg flex items-center justify-center gap-2 text-sm md:text-base"
         >
           <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />

@@ -49,7 +49,7 @@ export default function ChatInput({
     : "Отправьте сообщение...";
 
   return (
-    <div className="border-t border-gray-700 p-3 md:p-6 sticky bottom-0 bg-[#1C1F21]">
+    <div className="border-t border-gray-300 dark:border-gray-700 p-3 md:p-6 sticky bottom-0 bg-white dark:bg-[#1C1F21]">
       <div className="max-w-4xl mx-auto relative">
         <textarea
           ref={textareaRef}
@@ -57,7 +57,7 @@ export default function ChatInput({
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={handleKeyPress}
           placeholder={placeholder}
-          className="w-full p-3 pr-14 rounded-lg bg-gray-700 text-white placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] max-h-[150px]"
+          className="w-full p-3 pr-14 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px] max-h-[150px]"
           rows={1}
           disabled={!currentChatId || isLoading}
         />
@@ -65,7 +65,7 @@ export default function ChatInput({
           onClick={sendMessage}
           disabled={isLoading || !currentChatId || !input.trim()}
           className={`absolute right-3 top-1/2 transform -translate-y-1/2 p-2 rounded-md ${
-            isLoading || !currentChatId || !input.trim() ? 'bg-gray-600 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+            isLoading || !currentChatId || !input.trim() ? 'bg-gray-400 dark:bg-gray-600 cursor-not-allowed' : 'bg-blue-500 dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700'
           } text-white transition-colors`}
           aria-label="Отправить сообщение"
         >

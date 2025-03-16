@@ -271,3 +271,129 @@ body {
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }
+
+/* Мобильный оверлей */
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.mobile-overlay.open {
+  display: block;
+  opacity: 1;
+}
+
+/* Мобильный сайдбар */
+@media (max-width: 767px) {
+  .mobile-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 50;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .mobile-sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+/* Анимация появления */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Анимация точек загрузки */
+.loading-dots {
+  display: flex;
+  align-items: center;
+}
+
+.loading-dots .dot {
+  width: 4px;
+  height: 4px;
+  margin: 0 2px;
+  background-color: currentColor;
+  border-radius: 50%;
+  animation: dot-flashing 1s infinite alternate;
+}
+
+.loading-dots .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dots .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes dot-flashing {
+  0% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Темная тема для prose */
+.dark .prose {
+  color: #e2e8f0;
+}
+
+.dark .prose strong {
+  color: #f8fafc;
+}
+
+.dark .prose a {
+  color: #60a5fa;
+}
+
+.dark .prose h1,
+.dark .prose h2,
+.dark .prose h3,
+.dark .prose h4 {
+  color: #f8fafc;
+}
+
+.dark .prose blockquote {
+  color: #cbd5e1;
+  border-left-color: #475569;
+}
+
+.dark .prose code {
+  color: #f8fafc;
+  background-color: #1e293b;
+}
+
+.dark .prose pre {
+  background-color: #1e293b;
+}
+
+.dark .prose ol > li::before {
+  color: #cbd5e1;
+}
+
+.dark .prose ul > li::before {
+  background-color: #64748b;
+}

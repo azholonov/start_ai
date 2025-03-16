@@ -22,9 +22,9 @@ export default function Toast({ message, type, duration = 3000, onClose }: Toast
   }, [duration, onClose]);
 
   const bgColor = {
-    success: 'bg-green-600',
-    error: 'bg-red-600',
-    info: 'bg-blue-600'
+    success: 'bg-green-500 dark:bg-green-600',
+    error: 'bg-red-500 dark:bg-red-600',
+    info: 'bg-blue-500 dark:bg-blue-600'
   }[type];
 
   const icon = {

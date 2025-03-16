@@ -313,7 +313,7 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex h-screen bg-[#1C1F21] dark:bg-gray-900 relative">
+    <div className="flex h-screen bg-gray-100 dark:bg-[#1C1F21] relative">
       {/* Затемнение фона при открытом сайдбаре на мобильных устройствах */}
       <div 
         className={`mobile-overlay ${isSidebarOpen ? 'open' : ''}`} 
@@ -321,7 +321,7 @@ export default function Chat() {
       ></div>
       
       {/* Сайдбар */}
-      <div className={`${isSidebarOpen ? 'block' : 'hidden md:block'} w-64 border-r border-gray-700 flex flex-col mobile-sidebar ${isSidebarOpen ? 'open' : ''} md:static md:transform-none`}>
+      <div className={`${isSidebarOpen ? 'block' : 'hidden md:block'} w-64 border-r border-gray-300 dark:border-gray-700 flex flex-col mobile-sidebar ${isSidebarOpen ? 'open' : ''} md:static md:transform-none`}>
         <ChatSidebar 
           currentChatId={currentChatId}
           startNewChat={startNewChat}

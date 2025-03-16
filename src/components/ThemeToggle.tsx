@@ -33,7 +33,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700"
+      className="p-2 rounded-md text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
       aria-label={isDarkMode ? 'Переключить на светлую тему' : 'Переключить на темную тему'}
     >
       {isDarkMode ? (
