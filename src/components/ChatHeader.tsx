@@ -8,7 +8,7 @@ interface ChatHeaderProps {
 
 export default function ChatHeader({ toggleSidebar }: ChatHeaderProps) {
   return (
-    <div className="flex items-center justify-between px-4 md:px-6 py-3 md:py-4 border-b border-gray-300 dark:border-gray-700 bg-white dark:bg-[#1C1F21] sticky top-0 z-10">
+    <div className="flex items-center justify-between px-4 md:px-6 py-3 md:py-4 border-b border-border bg-card sticky top-0 z-10">
       <div className="flex items-center gap-4">
         <button 
           className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
@@ -19,7 +19,7 @@ export default function ChatHeader({ toggleSidebar }: ChatHeaderProps) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-        <div className="text-xl font-semibold text-gray-800 dark:text-white">StartAI</div>
+        <div className="text-xl font-semibold text-foreground">StartAI</div>
       </div>
       <div className="flex items-center space-x-2">
         <ThemeToggle />

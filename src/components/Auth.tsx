@@ -51,23 +51,23 @@ export default function Auth() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-[#1C1F21] p-4">
-      <div className="w-full max-w-md p-6 md:p-8 space-y-6 md:space-y-8 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+    <div className="flex items-center justify-center min-h-screen bg-background p-4">
+      <div className="w-full max-w-md p-6 md:p-8 space-y-6 md:space-y-8 bg-card rounded-lg shadow-md">
         <div className="text-center">
-          <h1 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">
+          <h1 className="text-xl md:text-2xl font-bold text-foreground">
             {isLogin ? 'Вход в StartAI' : 'Регистрация в StartAI'}
           </h1>
         </div>
 
         {message && (
-          <div className="p-3 md:p-4 mb-4 text-sm text-white bg-blue-500 dark:bg-blue-600 rounded-lg">
+          <div className="p-3 md:p-4 mb-4 text-sm text-white bg-primary rounded-lg">
             {message}
           </div>
         )}
 
         <form onSubmit={handleAuth} className="space-y-4 md:space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="email" className="block text-sm font-medium text-foreground">
               Email
             </label>
             <input
@@ -76,12 +76,12 @@ export default function Auth() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-3 py-2 mt-1 text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 mt-1 text-foreground bg-input border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="password" className="block text-sm font-medium text-foreground">
               Пароль
             </label>
             <input
@@ -90,7 +90,7 @@ export default function Auth() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-3 py-2 mt-1 text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 mt-1 text-foreground bg-input border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
 
@@ -98,7 +98,7 @@ export default function Auth() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full px-4 py-2 text-white bg-blue-500 dark:bg-blue-600 rounded-md hover:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 transition-colors"
+              className="w-full px-4 py-2 text-white bg-primary hover:bg-primary-hover rounded-md focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50 transition-colors"
             >
               {loading ? 'Загрузка...' : isLogin ? 'Войти' : 'Зарегистрироваться'}
             </button>
@@ -108,7 +108,7 @@ export default function Auth() {
         <div className="text-center">
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className="text-sm text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
+            className="text-sm text-primary hover:text-primary-hover transition-colors"
           >
             {isLogin ? 'Нет аккаунта? Зарегистрируйтесь' : 'Уже есть аккаунт? Войдите'}
           </button>

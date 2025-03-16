@@ -63,11 +63,11 @@ export default function ChatSidebar({
   };
 
   return (
-    <div className="w-full h-full flex flex-col bg-white dark:bg-[#1C1F21]">
+    <div className="w-full h-full flex flex-col bg-card">
       {/* Sidebar Header */}
-      <div className="p-3 md:p-4 border-b border-gray-300 dark:border-gray-700">
+      <div className="p-3 md:p-4 border-b border-border">
         <button 
-          className="w-full py-2 px-3 md:px-4 bg-blue-500 dark:bg-gray-700 hover:bg-blue-600 dark:hover:bg-gray-600 text-white rounded-lg flex items-center justify-center gap-2 text-sm md:text-base"
+          className="w-full py-2 px-3 md:px-4 bg-primary hover:bg-primary-hover text-white rounded-lg flex items-center justify-center gap-2 text-sm md:text-base"
           onClick={startNewChat}
         >
           <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -87,7 +87,7 @@ export default function ChatSidebar({
           chatHistory.map((chat) => (
             <button
               key={chat.id}
-              className={`w-full p-3 md:p-4 text-left hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 flex flex-col gap-1 relative group ${
+              className={`w-full p-3 md:p-4 text-left hover:bg-gray-200 dark:hover:bg-gray-700 text-foreground flex flex-col gap-1 relative group ${
                 currentChatId === chat.id ? 'bg-gray-200 dark:bg-gray-700' : ''
               }`}
               onClick={() => selectChat(chat.id)}
@@ -111,7 +111,7 @@ export default function ChatSidebar({
       </div>
 
       {/* User Info and Logout */}
-      <div className="p-3 md:p-4 border-t border-gray-300 dark:border-gray-700 mt-auto">
+      <div className="p-3 md:p-4 border-t border-border mt-auto">
         <div className="flex items-center justify-between mb-2">
           <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400 truncate">
             {userEmail}

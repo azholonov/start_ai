@@ -34,7 +34,7 @@ export default function ChatMessages({ messages, isLoading }: ChatMessagesProps)
   }, [messages]);
 
   return (
-    <div className="flex-1 overflow-y-auto p-3 md:p-6 space-y-4 md:space-y-6 bg-gray-50 dark:bg-[#1C1F21]">
+    <div className="flex-1 overflow-y-auto p-3 md:p-6 space-y-4 md:space-y-6 bg-background">
       {/* Показываем TipCard, если нет сообщений или есть только сообщения от агента */}
       {showTip && (messages.length === 0 || messages.every(msg => msg.sender === 'agent')) && (
         <TipCard 
