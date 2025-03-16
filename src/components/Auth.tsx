@@ -51,21 +51,21 @@ export default function Auth() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#1C1F21]">
-      <div className="w-full max-w-md p-8 space-y-8 bg-gray-800 rounded-lg shadow-md">
+    <div className="flex items-center justify-center min-h-screen bg-[#1C1F21] p-4">
+      <div className="w-full max-w-md p-6 md:p-8 space-y-6 md:space-y-8 bg-gray-800 rounded-lg shadow-md">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-white">
+          <h1 className="text-xl md:text-2xl font-bold text-white">
             {isLogin ? 'Вход в StartAI' : 'Регистрация в StartAI'}
           </h1>
         </div>
 
         {message && (
-          <div className="p-4 mb-4 text-sm text-white bg-blue-600 rounded-lg">
+          <div className="p-3 md:p-4 mb-4 text-sm text-white bg-blue-600 rounded-lg">
             {message}
           </div>
         )}
 
-        <form onSubmit={handleAuth} className="space-y-6">
+        <form onSubmit={handleAuth} className="space-y-4 md:space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-300">
               Email
@@ -98,7 +98,7 @@ export default function Auth() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+              className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 transition-colors"
             >
               {loading ? 'Загрузка...' : isLogin ? 'Войти' : 'Зарегистрироваться'}
             </button>
@@ -108,7 +108,7 @@ export default function Auth() {
         <div className="text-center">
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className="text-sm text-blue-400 hover:text-blue-300"
+            className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
           >
             {isLogin ? 'Нет аккаунта? Зарегистрируйтесь' : 'Уже есть аккаунт? Войдите'}
           </button>
