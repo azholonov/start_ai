@@ -35,6 +35,7 @@ export interface Message {
   chat_id: string;
   content: string;
   sender: 'user' | 'agent';
+  type?: 'thinking' | 'plan';
   created_at: string;
 }
 
@@ -136,14 +137,14 @@ export async function deleteChat(chatId: string): Promise<boolean> {
 export async function addMessage(
   chatId: string,
   content: string,
-  sender: 'user' | 'agent'
+  sender: 'user' | 'agent', type?: 'thinking' | 'plan',
 ): Promise<Message | null> {
   const supabaseWithToken = getSupabaseWithToken();
   
   const { data, error } = await supabaseWithToken
     .from('messages')
     .insert([
-      { chat_id: chatId, content, sender }
+      { chat_id: chatId, content, sender, type }
     ])
     .select()
     .single();

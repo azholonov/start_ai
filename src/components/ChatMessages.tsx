@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 interface Message {
   text: string;
   sender: 'user' | 'agent';
+  type?: 'thinking' | 'plan'; // Added type field
 }
 
 interface ChatMessagesProps {
@@ -42,6 +43,13 @@ export default function ChatMessages({ messages }: ChatMessagesProps) {
               <div className="text-gray-100">{msg.text}</div>
             ) : (
               <div className="prose prose-invert max-w-none">
+                {/* Добавляем заголовок для "thinking" или "plan" */}
+                {msg.type === 'thinking' && (
+                  <h3 className="text-gray-400 font-semibold mb-2">Анализ:</h3>
+                )}
+                {msg.type === 'plan' && (
+                  <h3 className="text-gray-400 font-semibold mb-2">План:</h3>
+                )}
                 <ReactMarkdown 
                   components={{
                     p: ({children}) => <p className="mb-2">{children}</p>,
@@ -71,4 +79,4 @@ export default function ChatMessages({ messages }: ChatMessagesProps) {
       <div ref={messagesEndRef} />
     </div>
   );
-} 
+}

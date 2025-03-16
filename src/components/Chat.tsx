@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 // components/Chat.tsx
 import { useState, useEffect } from 'react';
@@ -22,6 +22,7 @@ import ChatInput from './ChatInput';
 interface Message {
   text: string;
   sender: 'user' | 'agent';
+  type?: 'thinking' | 'plan'; // New field to differentiate response types
 }
 
 export default function Chat() {
@@ -54,7 +55,6 @@ export default function Chat() {
   const handleChatHistoryLoaded = (chats: ChatType[]) => {
     setChatHistory(chats);
     
-    // Если нет текущего чата, но есть история, выбираем первый чат
     if (!currentChatId && chats.length > 0) {
       setCurrentChatId(chats[0].id);
       router.push(`/?chat=${chats[0].id}`);
@@ -69,14 +69,13 @@ export default function Chat() {
       setMessages(
         chatMessages.map((msg: MessageType) => ({
           text: msg.content,
-          sender: msg.sender
+          sender: msg.sender,
+          type: msg.type // Assuming your DB schema can store this
         }))
       );
     } else {
-      // Если сообщений нет, добавляем приветственное сообщение
       setMessages([{ text: "Какой цели вы хотите достичь?", sender: 'agent' }]);
       
-      // Сохраняем приветственное сообщение в базу
       if (currentChatId) {
         await addMessage(
           currentChatId,
@@ -92,16 +91,13 @@ export default function Chat() {
     const newChat = await createChat("Новый чат");
     
     if (newChat) {
-      // Обновляем историю чатов локально, добавляя новый чат в начало списка
       setChatHistory(prev => [newChat, ...prev]);
       setCurrentChatId(newChat.id);
       router.push(`/?chat=${newChat.id}`);
       
-      // Сбрасываем сообщения и добавляем приветственное
       setMessages([{ text: "Какой цели вы хотите достичь?", sender: 'agent' }]);
       setInput('');
       
-      // Сохраняем приветственное сообщение
       await addMessage(
         newChat.id,
         "Какой цели вы хотите достичь?",
@@ -116,10 +112,8 @@ export default function Chat() {
 
     setIsLoading(true);
     
-    // Если это первое сообщение пользователя, обновляем заголовок чата
     if (messages.length === 1 && messages[0].sender === 'agent') {
       await updateChatTitle(currentChatId, input.substring(0, 50));
-      // Обновляем только текущий чат в истории, а не загружаем всю историю заново
       const updatedChat = await getChatById(currentChatId);
       if (updatedChat) {
         setChatHistory(prev => 
@@ -128,18 +122,15 @@ export default function Chat() {
       }
     }
     
-    // Добавляем сообщение пользователя в UI
     const userMessage: Message = { text: input, sender: 'user' };
     setMessages(prev => [...prev, userMessage]);
     
-    // Сохраняем сообщение пользователя в базу
     await addMessage(currentChatId, input, 'user');
     
     const currentInput = input;
     setInput('');
 
     try {
-      // Отправляем запрос к API с токеном
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -152,19 +143,28 @@ export default function Chat() {
 
       if (!response.ok) throw new Error('Ошибка сервера');
 
-      const data: { response: string } = await response.json();
+      const data: { thinking: string; plan: string } = await response.json();
       
-      // Добавляем ответ ассистента в UI
-      const agentMessage: Message = { text: data.response, sender: 'agent' };
-      setMessages(prev => [...prev, agentMessage]);
-      
-      // Сохраняем ответ ассистента в базу
-      await addMessage(currentChatId, data.response, 'agent');
+      // Добавляем "thinking" ответ
+      const thinkingMessage: Message = { 
+        text: data.thinking, 
+        sender: 'agent', 
+        type: 'thinking' 
+      };
+      setMessages(prev => [...prev, thinkingMessage]);
+      await addMessage(currentChatId, data.thinking, 'agent', 'thinking');
+
+      // Добавляем "plan" ответ
+      const planMessage: Message = { 
+        text: data.plan, 
+        sender: 'agent', 
+        type: 'plan' 
+      };
+      setMessages(prev => [...prev, planMessage]);
+      await addMessage(currentChatId, data.plan, 'agent', 'plan');
     } catch (error) {
       const errorMessage: Message = { text: 'Ошибка. Попробуйте снова.', sender: 'agent' };
       setMessages(prev => [...prev, errorMessage]);
-      
-      // Сохраняем сообщение об ошибке в базу
       await addMessage(currentChatId, 'Ошибка. Попробуйте снова.', 'agent');
     } finally {
       setIsLoading(false);
@@ -187,7 +187,6 @@ export default function Chat() {
       if (success) {
         setChatHistory(prev => prev.filter(chat => chat.id !== chatId));
         
-        // Если удаляем текущий чат, переходим к первому в списке или создаем новый
         if (currentChatId === chatId) {
           const remainingChats = chatHistory.filter(chat => chat.id !== chatId);
           
@@ -208,7 +207,6 @@ export default function Chat() {
 
   return (
     <div className="flex h-screen bg-[#1C1F21]">
-      {/* Sidebar */}
       {isSidebarOpen && (
         <ChatSidebar 
           currentChatId={currentChatId}
@@ -222,7 +220,6 @@ export default function Chat() {
         />
       )}
 
-      {/* Main Content */}
       <div className="flex-1 flex flex-col">
         <ChatHeader toggleSidebar={toggleSidebar} />
         <ChatMessages messages={messages} />
