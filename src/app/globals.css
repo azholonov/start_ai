@@ -26,3 +26,40 @@ body {
   color: var(--foreground);
   font-family: var(--font-inter);
 }
+
+/* Стили для анимации загрузки с тремя точками */
+.loading-dots {
+  display: flex;
+  align-items: center;
+  height: 24px;
+}
+
+.dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 4px;
+  background-color: #9ca3af;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.6s;
+  margin-right: 0;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}

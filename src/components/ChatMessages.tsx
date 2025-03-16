@@ -11,15 +11,16 @@ interface Message {
 
 interface ChatMessagesProps {
   messages: Message[];
+  isLoading: boolean; // Добавляем новый проп для отслеживания состояния загрузки
 }
 
-export default function ChatMessages({ messages }: ChatMessagesProps) {
+export default function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
   // Прокрутка к последнему сообщению
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, isLoading]);
 
   return (
     <div className="flex-1 overflow-y-auto p-6 space-y-6">
@@ -76,6 +77,31 @@ export default function ChatMessages({ messages }: ChatMessagesProps) {
           </div>
         </div>
       ))}
+      
+      {/* Индикатор загрузки "Thinking..." */}
+      {isLoading && (
+        <div className="mb-6">
+          <div className="flex items-center mb-2">
+            <div className="w-8 h-8 rounded-full flex items-center justify-center mr-2 bg-gray-600">
+              S
+            </div>
+            <div className="font-medium text-gray-300">
+              StartAI
+            </div>
+          </div>
+          <div className="pl-10">
+            <div className="flex items-center">
+              <span className="text-gray-400 font-semibold mr-1">Thinking</span>
+              <div className="loading-dots">
+                <span className="dot"></span>
+                <span className="dot"></span>
+                <span className="dot"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      
       <div ref={messagesEndRef} />
     </div>
   );

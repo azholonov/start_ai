@@ -222,7 +222,10 @@ export default function Chat() {
 
       <div className="flex-1 flex flex-col">
         <ChatHeader toggleSidebar={toggleSidebar} />
-        <ChatMessages messages={messages} />
+        <ChatMessages 
+          messages={messages} 
+          isLoading={isLoading}
+        />
         <ChatInput 
           input={input}
           setInput={setInput}
