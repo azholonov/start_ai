@@ -12,6 +12,9 @@ interface ChatSidebarProps {
   signOut: () => void;
   user: any;
   onChatHistoryLoaded: (chats: ChatType[]) => void;
+  closeSidebar: () => void;
+  toggleTheme: () => void;
+  isDarkMode: boolean;
 }
 
 export default function ChatSidebar({
@@ -22,7 +25,10 @@ export default function ChatSidebar({
   userEmail,
   signOut,
   user,
-  onChatHistoryLoaded
+  onChatHistoryLoaded,
+  closeSidebar,
+  toggleTheme,
+  isDarkMode
 }: ChatSidebarProps) {
   const [chatHistory, setChatHistory] = useState<ChatType[]>([]);
   const hasLoadedRef = useRef(false);
@@ -63,17 +69,18 @@ export default function ChatSidebar({
   };
 
   return (
-    <div className="w-full h-full flex flex-col bg-card">
-      {/* Sidebar Header */}
-      <div className="p-3 md:p-4 border-b border-border">
+    <div className="w-full h-full flex flex-col bg-card border-r border-border">
+      {/* Sidebar Header с кнопкой закрытия */}
+      <div className="p-3 md:p-4 border-b border-border flex justify-between items-center">
+        <div className="text-lg font-medium text-foreground">История чатов</div>
         <button 
-          className="w-full py-2 px-3 md:px-4 bg-primary hover:bg-primary-hover text-white rounded-lg flex items-center justify-center gap-2 text-sm md:text-base"
-          onClick={startNewChat}
+          className="md:hidden text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white p-1 rounded-md"
+          onClick={closeSidebar}
+          aria-label="Закрыть сайдбар"
         >
-          <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
-          Новый чат
         </button>
       </div>
 
@@ -117,15 +124,40 @@ export default function ChatSidebar({
             {userEmail}
           </div>
         </div>
-        <button 
-          onClick={signOut}
-          className="w-full py-2 px-3 md:px-4 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-white rounded-lg flex items-center justify-center gap-2 text-sm md:text-base"
-        >
-          <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-          </svg>
-          Выйти
-        </button>
+        
+        {/* Контейнер для кнопок с разделителем */}
+        <div className="flex items-center justify-between">
+          {/* Кнопка смены темы (перемещена из хедера) */}
+          <button 
+            className="p-2 rounded-md text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+            onClick={toggleTheme}
+            aria-label="Переключить тему"
+          >
+            {isDarkMode ? (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            )}
+          </button>
+          
+          {/* Разделитель (спейсер) */}
+          <div className="flex-grow"></div>
+          
+          {/* Кнопка выхода в виде иконки */}
+          <button 
+            onClick={signOut}
+            className="p-2 rounded-md text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+            aria-label="Выйти"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   );

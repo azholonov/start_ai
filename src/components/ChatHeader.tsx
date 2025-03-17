@@ -1,12 +1,14 @@
 'use client';
 
-import ThemeToggle from './ThemeToggle';
+import { useState, useEffect } from 'react';
 
 interface ChatHeaderProps {
   toggleSidebar: () => void;
+  startNewChat: () => void;
+  isSidebarOpen: boolean;
 }
 
-export default function ChatHeader({ toggleSidebar }: ChatHeaderProps) {
+export default function ChatHeader({ toggleSidebar, startNewChat, isSidebarOpen }: ChatHeaderProps) {
   return (
     <div className="flex items-center justify-between px-4 md:px-6 py-3 md:py-4 border-b border-border bg-card sticky top-0 z-10">
       <div className="flex items-center gap-4">
@@ -15,14 +17,28 @@ export default function ChatHeader({ toggleSidebar }: ChatHeaderProps) {
           onClick={toggleSidebar}
           aria-label="Переключить боковую панель"
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
+          {isSidebarOpen ? (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          )}
         </button>
         <div className="text-xl font-semibold text-foreground">StartAI</div>
       </div>
       <div className="flex items-center space-x-2">
-        <ThemeToggle />
+        <button 
+          className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
+          onClick={startNewChat}
+          aria-label="Новый чат"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+        </button>
         <button 
           className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
           aria-label="Поделиться"

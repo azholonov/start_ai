@@ -1,0 +1,5 @@
+export const ANTHROPIC_CONFIG = {
+  MODEL: 'claude-3-7-sonnet-20250219',
+  MAX_TOKENS_THINKING: 500,
+  MAX_TOKENS_PLAN: 1000,
+};

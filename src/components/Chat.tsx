@@ -31,21 +31,26 @@ export default function Chat() {
   const [input, setInput] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [chatHistory, setChatHistory] = useState<ChatType[]>([]);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
   const [showEmptyState, setShowEmptyState] = useState(true);
   const { user, signOut } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   
+  // Добавьте состояние темы в компонент Chat
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return document.documentElement.classList.contains('dark');
+    }
+    return true; // По умолчанию темная тема
+  });
+  
   // Проверка размера экрана при загрузке
   useEffect(() => {
     const checkScreenSize = () => {
-      if (window.innerWidth < 768) {
-        setIsSidebarOpen(false);
-      } else {
-        setIsSidebarOpen(true);
-      }
+      // Всегда скрываем сайдбар по умолчанию, независимо от размера экрана
+      setIsSidebarOpen(false);
     };
     
     checkScreenSize();
@@ -118,10 +123,8 @@ export default function Chat() {
     setMessages([]);
     setInput('');
     
-    // Закрываем сайдбар на мобильных устройствах
-    if (window.innerWidth < 768) {
-      setIsSidebarOpen(false);
-    }
+    // Закрываем сайдбар при создании нового чата
+    setIsSidebarOpen(false);
   };
 
   // Отправка сообщения из EmptyState (с созданием чата)
@@ -272,10 +275,8 @@ export default function Chat() {
     router.push(`/?chat=${chatId}`);
     setShowEmptyState(false);
     
-    // Закрываем сайдбар на мобильных устройствах после выбора чата
-    if (window.innerWidth < 768) {
-      setIsSidebarOpen(false);
-    }
+    // Всегда закрываем сайдбар после выбора чата
+    setIsSidebarOpen(false);
   };
   
   // Удаление чата
@@ -309,19 +310,44 @@ export default function Chat() {
 
   // Переключение боковой панели
   const toggleSidebar = () => {
+    console.log('Toggling sidebar, current state:', isSidebarOpen); // Отладочный вывод
     setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  // Функция закрытия сайдбара
+  const closeSidebar = () => {
+    console.log('Closing sidebar'); // Отладочный вывод
+    setIsSidebarOpen(false);
+  };
+
+  // Функция переключения темы
+  const toggleTheme = () => {
+    if (isDarkMode) {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    }
+    setIsDarkMode(!isDarkMode);
   };
 
   return (
     <div className="flex h-screen bg-background relative">
-      {/* Затемнение фона при открытом сайдбаре на мобильных устройствах */}
-      <div 
-        className={`mobile-overlay ${isSidebarOpen ? 'open' : ''}`} 
-        onClick={() => setIsSidebarOpen(false)}
-      ></div>
+      {/* Затемнение фона при открытом сайдбаре */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300"
+          onClick={closeSidebar}
+        ></div>
+      )}
       
       {/* Сайдбар */}
-      <div className={`${isSidebarOpen ? 'block' : 'hidden md:block'} w-64 border-r border-border flex flex-col mobile-sidebar ${isSidebarOpen ? 'open' : ''} md:static md:transform-none`}>
+      <div 
+        className={`fixed top-0 left-0 bottom-0 w-64 bg-card border-r border-border z-50 transform transition-transform duration-300 ease-in-out ${
+          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
         <ChatSidebar 
           currentChatId={currentChatId}
           startNewChat={startNewChat}
@@ -331,11 +357,19 @@ export default function Chat() {
           signOut={signOut}
           user={user}
           onChatHistoryLoaded={handleChatHistoryLoaded}
+          closeSidebar={closeSidebar}
+          toggleTheme={toggleTheme}
+          isDarkMode={isDarkMode}
         />
       </div>
 
+      {/* Основной контент */}
       <div className="flex-1 flex flex-col">
-        <ChatHeader toggleSidebar={toggleSidebar} />
+        <ChatHeader 
+          toggleSidebar={toggleSidebar} 
+          startNewChat={startNewChat}
+          isSidebarOpen={isSidebarOpen}
+        />
         
         {/* Показываем EmptyState или чат */}
         {showEmptyState ? (
